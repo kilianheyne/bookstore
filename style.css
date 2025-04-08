@@ -6,3 +6,85 @@
     text-decoration: none;
     scroll-behavior: smooth;
 }
+
+html{
+    font-size: 10px;
+}
+
+body{
+    background: #E3E5DB;
+    backdrop-filter: blur(10px);
+    padding-left: 5%;
+    padding-right: 5%;
+    color: #34403A;
+
+    h2{
+        font-size: 4rem;
+        padding-bottom: 1.5%;
+    }
+
+    h3{
+        font-size: 2.2rem;
+        padding-top: 8%;
+    }
+}
+
+header{
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+    min-height: 11.2rem;
+
+    #logo{
+        max-width: 32%;
+    }
+
+    #heart-icon{
+        max-width: 4%;
+    }
+}
+
+main{
+    section{
+        min-height: 100svh;
+    }
+}
+
+#books-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2%;
+
+    .mini-book-card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 23.5%;
+        padding-bottom: 4%; 
+
+        img{
+            max-width: 100%;
+            border-radius: 11px;
+            box-shadow: rgba(0, 0, 0, 0.65) 0px 5px 15px;
+        }
+
+        h3{
+            width: 100%;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        span{
+            font-size: 1.6rem;
+            padding-top: 2%;
+            text-align: center;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

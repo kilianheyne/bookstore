@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Book Shelf 📚</title>
-    <link rel="shortcut icon" href="./assets/icons/the book shelf favIcon olive.png" type="image/x-icon">
+    <title>The Book Shelf 📖</title>
+    <link rel="shortcut icon" href="./assets/icons/the-book-shelf-favIcon-olive.png" type="image/x-icon">
 
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="">
+<body onload="renderBooks()">
     <header>
-
+        <img src="./assets/icons/the-book-shelf-logo-olive.png" alt="The Book Shelf-Logo" id="logo">
+        <img src="./assets/icons/heart.png" alt="Deine Favoriten-Liste" id="heart-icon">
     </header>
     <main>
         <section>
-
+            <h2>Erweitere Deinen Horizont </h2>
         </section>
         <section>
-
+            <h2>Erlebe neue Geschichten</h2>
+            <div id="books-container">
+            </div>
         </section>
         <section>
-            
+            <h2>Deine Favoriten</h2>
         </section>
     </main>
     <footer>
