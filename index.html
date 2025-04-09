@@ -8,10 +8,10 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="renderBooks()">
+<body onload="renderBooks(), renderFavourites()">
     <header>
         <img src="./assets/icons/the-book-shelf-logo-olive.png" alt="The Book Shelf-Logo" id="logo">
-        <img src="./assets/icons/heart.png" alt="Deine Favoriten-Liste" id="heart-icon">
+        <img src="./assets/icons/not-like.png" alt="Deine Favoriten-Liste" id="heart-icon">
     </header>
     <main>
         <section>
@@ -24,6 +24,9 @@
         </section>
         <section>
             <h2>Deine Favoriten</h2>
+            <div id="favourites-container">
+                
+            </div>
         </section>
     </main>
     <footer>

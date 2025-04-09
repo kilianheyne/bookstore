@@ -196,19 +196,81 @@ let books = [
 function renderBooks() {
     const containerRef = document.getElementById("books-container");
     for (i = 0; i < books.length; i++) {
-        containerRef.innerHTML += returnMiniBookCards();
+        containerRef.innerHTML += returnMiniBookCards(i);
     }
 }
 
-function returnMiniBookCards() {
-    return `<div class="mini-book-card" id="bookInfo${[i]}">
+function renderFavourites(){
+    const favouriteRef = document.getElementById('favourites-container');
+
+    for (i = 0; i < books.length; i++){
+        favouriteRef.innerHTML += returnFavouriteBooks(i);
+    }
+}
+
+function returnMiniBookCards(booksIndex) {
+    return `<div class="mini-book-card" id="bookInfo${[booksIndex]}">
                 <img src="./assets/imgs/platzhalter.jpg" alt="platzhalter">
-                <h3>${upperCaseTitle()}</h3>
-                <span>Written by ${books[i].author}</span>
+                <h3>${upperCaseTitle(booksIndex)}</h3>
+                <span>Written by ${books[booksIndex].author}</span>
             </div>`;
 }
 
-function upperCaseTitle() {
+function upperCaseTitle(i) {
     const titleRef = books[i].name;
     return titleRef.toUpperCase();
+}
+
+function returnFavouriteBooks(booksIndex){
+    return `<div class="favourite-book">
+                    <h3>${books[booksIndex].name}</h3>
+                    <div class="favourite-book-image">
+                        <img src="./assets/imgs/platzhalter.jpg" alt="platzhalter">
+                    </div>
+                    <div class="book-overview">
+                        <div class="book-offer">
+                            <b>${properPriceDisplay(booksIndex)}</b>
+                            <div class="likes-container">
+                                <span>${books[booksIndex].likes}</span>
+                                <div id="heart-container">${renderHeartIcon(booksIndex)}</div>
+                            </div>
+                        </div>
+                        <div class="book-information">
+                            <p>Author: ${books[booksIndex].author}</p>
+                            <p>Erscheinungsjahr: ${books[booksIndex].publishedYear}</p>
+                            <p>Genre: ${books[booksIndex].genre}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Kommentare:</p>
+                    </div>
+                    <div id="comments-container">${renderComments(booksIndex)}</div>
+                </div>`
+}
+
+
+
+function properPriceDisplay(i){
+    const price = books[i].price;
+    const finalPrice = price.toFixed(2);
+    return finalPrice.replace('.', ',') + ' ' + '€';
+}
+
+function renderHeartIcon(i){
+    let heartRef = books[i].liked;
+
+    if (heartRef === true) {
+        return `<img src="./assets/icons/like.png" alt="">`;
+    } else {
+        return `<img src="./assets/icons/not-like.png" alt="">`;
+    }
+}
+
+function renderComments(i){
+    const commentRef = document.getElementById('comments-container');
+    const bookCommentsRef = books[i].comments;
+    console.log(bookCommentsRef);
+    for (){
+        
+    }
 }
