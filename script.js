@@ -193,9 +193,9 @@ let books = [
     },
 ];
 
-function renderBooks() {
-    const containerRef = document.getElementById("books-container");
-    for (i = 0; i < books.length; i++) {
+function renderBooks() { 
+    const containerRef = document.getElementById("books-container"); 
+    for (let i = 0; i < books.length; i++) { 
         containerRef.innerHTML += returnMiniBookCards(i);
     }
 }
@@ -203,10 +203,21 @@ function renderBooks() {
 function renderFavourites(){
     const favouriteRef = document.getElementById('favourites-container');
 
-    for (i = 0; i < books.length; i++){
-        favouriteRef.innerHTML += returnFavouriteBooks(i);
+
+    for (let i = 0; i < books.length; i++){
+        if (books[i].liked === true){
+            favouriteRef.innerHTML += returnFavouriteBooks(i);
+
+            const favCommentsRef = document.getElementById('comments-container-' + i); // erst nach dem Rendern können wir auf das div mit der ID zugreifen + wir benötigen individuelle ID's um die entsprechenden Kommentare zu laden (sonst landet alles im zuerst gefunden div mit der ID "comments-container" und die anderen divs mit derselben ID werden ignoriert)
+
+            for(let j = 0; j < books[i].comments.length; j++){
+                favCommentsRef.innerHTML += returnComments(i, j);        
+            }
+        }
     }
 }
+
+console.log(books[2]);
 
 function returnMiniBookCards(booksIndex) {
     return `<div class="mini-book-card" id="bookInfo${[booksIndex]}">
@@ -218,7 +229,7 @@ function returnMiniBookCards(booksIndex) {
 
 function upperCaseTitle(i) {
     const titleRef = books[i].name;
-    return titleRef.toUpperCase();
+    return titleRef.toUpperCase(); // capslock but Code
 }
 
 function returnFavouriteBooks(booksIndex){
@@ -244,16 +255,20 @@ function returnFavouriteBooks(booksIndex){
                     <div>
                         <p>Kommentare:</p>
                     </div>
-                    <div id="comments-container">${renderComments(booksIndex)}</div>
+                    <div id="comments-container-${booksIndex}"></div>
+                    <div>
+                        <input type="text" placeholder="Schreibe einen Kommentar...">
+                        <button onclick="pushComment()"></button> 
+                    </div>
                 </div>`
 }
-
+// pushComment()-Funktion muss den .value in das comments-Array von books pushen können 
 
 
 function properPriceDisplay(i){
     const price = books[i].price;
-    const finalPrice = price.toFixed(2);
-    return finalPrice.replace('.', ',') + ' ' + '€';
+    const finalPrice = price.toFixed(2); 
+    return finalPrice.replace('.', ',') + ' ' + '€'; // .replace() funktioniert nur bei einem String - deshalb kommt zuerst der Zwischenschritt mit .toFixed, um einen String zu erhalten 
 }
 
 function renderHeartIcon(i){
@@ -266,11 +281,9 @@ function renderHeartIcon(i){
     }
 }
 
-function renderComments(i){
-    const commentRef = document.getElementById('comments-container');
-    const bookCommentsRef = books[i].comments;
-    console.log(bookCommentsRef);
-    for (){
-        
-    }
+function returnComments(i, j){
+    return `<div>
+                <div>${books[i].comments[j].name}</div>
+                <div>${books[i].comments[j].comment}</div>
+            </div>`;
 }
