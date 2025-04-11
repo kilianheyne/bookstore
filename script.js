@@ -1,6 +1,7 @@
 let books = [
     {
         name: "Die Geheimnisse des Ozeans",
+        cover: `<img src="./assets/imgs/die-geheimnisse-des-ozeans-cover.png" alt='Buchcover von "Die Geheimnisse des Ozeans"'>`,
         author: "Clara Meer",
         likes: 1250,
         liked: true,
@@ -47,6 +48,7 @@ let books = [
     },
     {
         name: "Die Farben des Himmels",
+        cover: `<img src="./assets/imgs/die-farben-des-himmels-cover.png" alt='Buchcover von "Die Geheimnisse des Ozeans"'>`,
         author: "Laura Blau",
         likes: 1520,
         liked: true,
@@ -193,6 +195,8 @@ let books = [
     },
 ];
 
+let favBooks = [];
+
 function renderBooks() {
     const containerRef = document.getElementById("books-container");
     for (let i = 0; i < books.length; i++) {
@@ -201,7 +205,8 @@ function renderBooks() {
 }
 
 function renderFavourites() {
-    const favouriteRef = document.getElementById("favourites-container");
+    let favouriteRef = document.getElementById("favourites-container");
+    favouriteRef.innerHTML = "";
 
     for (let i = 0; i < books.length; i++) {
         if (books[i].liked === true) {
@@ -212,17 +217,17 @@ function renderFavourites() {
             ); // erst nach dem Rendern können wir auf das div mit der ID zugreifen + wir benötigen individuelle ID's um die entsprechenden Kommentare zu laden (sonst landet alles im zuerst gefunden div mit der ID "comments-container" und die anderen divs mit derselben ID werden ignoriert)
 
             for (let j = 0; j < books[i].comments.length; j++) {
+                console.log("Kommentar gespeichert:", books[i].comments);
+                console.log("Kommentar ausgelesen:", books[i].comments[j]);
                 favCommentsRef.innerHTML += returnComments(i, j);
             }
         }
     }
 }
 
-console.log(books[2]);
-
 function returnMiniBookCards(booksIndex) {
     return `<div class="mini-book-card" id="bookInfo${[booksIndex]}">
-                <img src="./assets/imgs/platzhalter.jpg" alt="platzhalter">
+                ${books[booksIndex].cover}
                 <h3>${upperCaseTitle(booksIndex)}</h3>
                 <span>Written by ${books[booksIndex].author}</span>
             </div>`;
@@ -237,7 +242,7 @@ function returnFavouriteBooks(booksIndex) {
     return `<div class="favourite-book">
                     <h3>${books[booksIndex].name}</h3>
                     <div class="favourite-book-image">
-                        <img src="./assets/imgs/platzhalter.jpg" alt="platzhalter">
+                        ${books[booksIndex].cover}
                     </div>
                     <div class="book-overview">
                         <div class="book-offer">
@@ -271,8 +276,8 @@ function returnFavouriteBooks(booksIndex) {
                         </div>
                     </div>
                     <div class="comment-area">
-                        <input type="text" placeholder="Schreibe einen Kommentar...">
-                        <img src="./assets/icons/send-comment-dark.png" alt="send comment"> 
+                        <input id="comment-input-${booksIndex}" type="text" placeholder="Schreibe einen Kommentar...">
+                        <img src="./assets/icons/send-comment-dark.png" alt="send comment" id="send-comment-${booksIndex}" onclick="pushComment(${booksIndex})"> 
                     </div>
                 </div>`;
 }
@@ -299,4 +304,12 @@ function returnComments(i, j) {
                 <div class="comment-name">${books[i].comments[j].name}</div>
                 <div class="comment-comment">${books[i].comments[j].comment}</div>
             </div>`;
+}
+
+function pushComment(i){
+    const inputRef = document.getElementById('comment-input-' + i);
+    let inputValueRef = inputRef.value;
+    books[i].comments.push({name: 'Lese-Maus', comment: inputValueRef});
+    renderFavourites();
+    inputRef.value = "";
 }
