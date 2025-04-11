@@ -193,25 +193,26 @@ let books = [
     },
 ];
 
-function renderBooks() { 
-    const containerRef = document.getElementById("books-container"); 
-    for (let i = 0; i < books.length; i++) { 
+function renderBooks() {
+    const containerRef = document.getElementById("books-container");
+    for (let i = 0; i < books.length; i++) {
         containerRef.innerHTML += returnMiniBookCards(i);
     }
 }
 
-function renderFavourites(){
-    const favouriteRef = document.getElementById('favourites-container');
+function renderFavourites() {
+    const favouriteRef = document.getElementById("favourites-container");
 
-
-    for (let i = 0; i < books.length; i++){
-        if (books[i].liked === true){
+    for (let i = 0; i < books.length; i++) {
+        if (books[i].liked === true) {
             favouriteRef.innerHTML += returnFavouriteBooks(i);
 
-            const favCommentsRef = document.getElementById('comments-container-' + i); // erst nach dem Rendern können wir auf das div mit der ID zugreifen + wir benötigen individuelle ID's um die entsprechenden Kommentare zu laden (sonst landet alles im zuerst gefunden div mit der ID "comments-container" und die anderen divs mit derselben ID werden ignoriert)
+            const favCommentsRef = document.getElementById(
+                "comments-container-" + i
+            ); // erst nach dem Rendern können wir auf das div mit der ID zugreifen + wir benötigen individuelle ID's um die entsprechenden Kommentare zu laden (sonst landet alles im zuerst gefunden div mit der ID "comments-container" und die anderen divs mit derselben ID werden ignoriert)
 
-            for(let j = 0; j < books[i].comments.length; j++){
-                favCommentsRef.innerHTML += returnComments(i, j);        
+            for (let j = 0; j < books[i].comments.length; j++) {
+                favCommentsRef.innerHTML += returnComments(i, j);
             }
         }
     }
@@ -232,7 +233,7 @@ function upperCaseTitle(i) {
     return titleRef.toUpperCase(); // capslock but Code
 }
 
-function returnFavouriteBooks(booksIndex){
+function returnFavouriteBooks(booksIndex) {
     return `<div class="favourite-book">
                     <h3>${books[booksIndex].name}</h3>
                     <div class="favourite-book-image">
@@ -243,35 +244,47 @@ function returnFavouriteBooks(booksIndex){
                             <b>${properPriceDisplay(booksIndex)}</b>
                             <div class="likes-container">
                                 <span>${books[booksIndex].likes}</span>
-                                <div id="heart-container">${renderHeartIcon(booksIndex)}</div>
+                                <div id="heart-container">${renderHeartIcon(
+                                    booksIndex
+                                )}</div>
                             </div>
                         </div>
                         <div class="book-information">
-                            <p>Author: ${books[booksIndex].author}</p>
-                            <p>Erscheinungsjahr: ${books[booksIndex].publishedYear}</p>
-                            <p>Genre: ${books[booksIndex].genre}</p>
+                            <div class="info-row">
+                                <span>Autor:</span>
+                                <span>${books[booksIndex].author}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Erscheinungsjahr:</span>
+                                <span>${books[booksIndex].publishedYear}</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Genre:</span>
+                                <span>${books[booksIndex].genre}</span>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <p>Kommentare:</p>
+                    <div class="comment-section">
+                        <b>Kommentare:</b>
+                        <div class="overflow-hidden">
+                            <div id="comments-container-${booksIndex}" class="comments-container"></div>
+                        </div>
                     </div>
-                    <div id="comments-container-${booksIndex}"></div>
-                    <div>
+                    <div class="comment-area">
                         <input type="text" placeholder="Schreibe einen Kommentar...">
-                        <button onclick="pushComment()"></button> 
+                        <img src="./assets/icons/send-comment-dark.png" alt="send comment"> 
                     </div>
-                </div>`
+                </div>`;
 }
-// pushComment()-Funktion muss den .value in das comments-Array von books pushen können 
+// pushComment()-Funktion muss den .value in das comments-Array von books pushen können
 
-
-function properPriceDisplay(i){
+function properPriceDisplay(i) {
     const price = books[i].price;
-    const finalPrice = price.toFixed(2); 
-    return finalPrice.replace('.', ',') + ' ' + '€'; // .replace() funktioniert nur bei einem String - deshalb kommt zuerst der Zwischenschritt mit .toFixed, um einen String zu erhalten 
+    const finalPrice = price.toFixed(2);
+    return finalPrice.replace(".", ",") + " " + "€"; // .replace() funktioniert nur bei einem String - deshalb kommt zuerst der Zwischenschritt mit .toFixed, um einen String zu erhalten
 }
 
-function renderHeartIcon(i){
+function renderHeartIcon(i) {
     let heartRef = books[i].liked;
 
     if (heartRef === true) {
@@ -281,9 +294,9 @@ function renderHeartIcon(i){
     }
 }
 
-function returnComments(i, j){
-    return `<div>
-                <div>${books[i].comments[j].name}</div>
-                <div>${books[i].comments[j].comment}</div>
+function returnComments(i, j) {
+    return `<div class="single-comment">
+                <div class="comment-name">${books[i].comments[j].name}</div>
+                <div class="comment-comment">${books[i].comments[j].comment}</div>
             </div>`;
 }
