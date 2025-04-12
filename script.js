@@ -210,15 +210,13 @@ function renderFavourites() {
 
     for (let i = 0; i < books.length; i++) {
         if (books[i].liked === true) {
-            favouriteRef.innerHTML += returnFavouriteBooks(i);
+            favouriteRef.innerHTML += returnBook(i);
 
             const favCommentsRef = document.getElementById(
                 "comments-container-" + i
             ); // erst nach dem Rendern können wir auf das div mit der ID zugreifen + wir benötigen individuelle ID's um die entsprechenden Kommentare zu laden (sonst landet alles im zuerst gefunden div mit der ID "comments-container" und die anderen divs mit derselben ID werden ignoriert)
 
             for (let j = 0; j < books[i].comments.length; j++) {
-                console.log("Kommentar gespeichert:", books[i].comments);
-                console.log("Kommentar ausgelesen:", books[i].comments[j]);
                 favCommentsRef.innerHTML += returnComments(i, j);
             }
         }
@@ -226,7 +224,7 @@ function renderFavourites() {
 }
 
 function returnMiniBookCards(booksIndex) {
-    return `<div class="mini-book-card" id="bookInfo${[booksIndex]}">
+    return `<div class="mini-book-card" id="bookInfo${[booksIndex]}" onclick="openOverlay(${booksIndex})">
                 ${books[booksIndex].cover}
                 <h3>${upperCaseTitle(booksIndex)}</h3>
                 <span>Written by ${books[booksIndex].author}</span>
@@ -238,10 +236,10 @@ function upperCaseTitle(i) {
     return titleRef.toUpperCase(); // capslock but Code
 }
 
-function returnFavouriteBooks(booksIndex) {
-    return `<div class="favourite-book">
+function returnBook(booksIndex) {
+    return `<div class="book">
                     <h3>${books[booksIndex].name}</h3>
-                    <div class="favourite-book-image">
+                    <div class="book-image">
                         ${books[booksIndex].cover}
                     </div>
                     <div class="book-overview">
@@ -293,9 +291,9 @@ function renderHeartIcon(i) {
     let heartRef = books[i].liked;
 
     if (heartRef === true) {
-        return `<img src="./assets/icons/like.png" alt="">`;
+        return `<img src="./assets/icons/like.png" alt="" onclick="toggleHeartIcon(${i})">`;
     } else {
-        return `<img src="./assets/icons/not-like.png" alt="">`;
+        return `<img src="./assets/icons/not-like.png" alt="" onclick="toggleHeartIcon(${i})">`;
     }
 }
 
@@ -312,4 +310,30 @@ function pushComment(i){
     books[i].comments.push({name: 'Lese-Maus', comment: inputValueRef});
     renderFavourites();
     inputRef.value = "";
+}
+
+function toggleHeartIcon(i){
+    // onclick muss sich das Objekt im books-Array ändern (z.B. von false zu true, von true zu false)
+    books[i].liked = !books[i].liked;
+    // Der Likes-Zähler muss sich um 1 erhöhen oder verringern
+    if (books[i].liked == true){
+        books[i].likes++;
+    } else {
+        books[i].likes--;
+    }
+    console.log(books[i].likes)
+    // danach muss renderHeartIcon erneut ausgeführt werden
+    renderFavourites();
+    // das neu gelikte Buch muss nun auch bei "Deine Favoriten" auftauchen    
+}
+
+function openOverlay(booksIndex){
+    const refOverlay = document.getElementById('overlay');
+    const refBookBox = document.getElementById('book-box');
+
+    refOverlay.style.zIndex = "1";
+    refOverlay.classList.remove('d-none');
+    refOverlay.classList.add('d-show');
+
+    refBookBox.innerHTML = returnBook(booksIndex);   
 }
